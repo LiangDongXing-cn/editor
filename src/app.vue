@@ -1,5 +1,15 @@
 <template>
   <div class="examples">
+    <div>
+      <t-button @click="button1">执行setHighlight</t-button>
+      <t-button @click="button5">执行unsetHighlight</t-button>
+      <t-button @click="button2">执行insertContent</t-button>
+      <t-button @click="button3">执行appendContent</t-button>
+      <t-button @click="button4">执行replaceContent</t-button>
+      <t-button @click="button5">执行unsetHighlight</t-button>
+      <t-button @click="button6">重新坐标</t-button>
+    </div>
+
     <div class="box">
       <umo-editor ref="editorRef" v-bind="options" />
     </div>
@@ -113,6 +123,156 @@ const options = $ref({
     console.log(id, url)
   },
 })
+
+const button1 = () => {
+  editorRef.setHighlight({ from: 54, to: 56 }, 'red')
+}
+const button2 = () => {
+  editorRef.insertContent('新中国')
+}
+const button3 = () => {
+  editorRef.appendContent('新中国')
+}
+const button4 = () => {
+  editorRef.replaceContent({ from: 54, to: 56 }, '环境1')
+}
+const button5 = () => {
+  editorRef.unsetHighlight({ from: 5, to: 10 })
+}
+
+const data = $ref([
+  {
+    sentence: '第五届联合国环境大会第二阶段会议在肯尼亚首都蒙巴萨举行。',
+    senIdx: 0,
+    errorType: 10,
+    errorTypeInfo: '归属错误:首都归属',
+    errorWord: '肯尼亚首都蒙巴萨',
+    startPos: 17,
+    endPos: 25,
+    senStartPos: 17,
+    senEndPos: 25,
+    suggestType: 0,
+    suggestions: [
+      {
+        weight: 1,
+        collateWord: '肯尼亚首都内罗毕',
+      },
+    ],
+    suggestion: null,
+    collateWord: '肯尼亚首都内罗毕',
+    reference: null,
+    weight: 1.0,
+    engine: 'col',
+    fileName: null,
+  },
+  {
+    sentence:
+      '2022年3月3，联合国环境规划署(ULEP)在总部所在地内罗毕举行了纪念成立50周年特别会议，环境部长黄润秋以视频方式出席会议并发言。',
+    senIdx: 2,
+    errorType: 16,
+    errorTypeInfo: '缩略词错误',
+    errorWord: 'ULEP',
+    startPos: 88,
+    endPos: 92,
+    senStartPos: 18,
+    senEndPos: 22,
+    suggestType: 0,
+    suggestions: [
+      {
+        weight: 1,
+        collateWord: 'United Nations Environment Programme',
+      },
+      {
+        weight: 1,
+        collateWord: 'UNEP',
+      },
+    ],
+    suggestion: null,
+    collateWord: 'United Nations Environment Programme,UNEP',
+    reference: null,
+    weight: 1.0,
+    engine: 'col',
+    fileName: null,
+  },
+  {
+    sentence:
+      '2022年3月3，联合国环境规划署(ULEP)在总部所在地内罗毕举行了纪念成立50周年特别会议，环境部长黄润秋以视频方式出席会议并发言。',
+    senIdx: 2,
+    errorType: 6,
+    errorTypeInfo: '领导人称谓错误',
+    errorWord: '环境部长黄润秋',
+    startPos: 118,
+    endPos: 125,
+    senStartPos: 48,
+    senEndPos: 55,
+    suggestType: 0,
+    suggestions: [
+      {
+        weight: 1,
+        collateWord: '第十四届全国政协常委黄润秋',
+      },
+      {
+        weight: 1,
+        collateWord: '九三学社第十五届中央副主席黄润秋',
+      },
+      {
+        weight: 1,
+        collateWord: '生态环境部部长黄润秋',
+      },
+    ],
+    suggestion: null,
+    collateWord:
+      '第十四届全国政协常委黄润秋,九三学社第十五届中央副主席黄润秋,生态环境部部长黄润秋',
+    reference: null,
+    weight: 1.0,
+    engine: 'col',
+    fileName: null,
+  },
+  {
+    sentence:
+      '2022年3月3，联合国环境规划署(ULEP)在总部所在地内罗毕举行了纪念成立50周年特别会议，环境部长黄润秋以视频方式出席会议并发言。',
+    senIdx: 0,
+    errorType: 4,
+    errorTypeInfo: '日期格式错误',
+    errorWord: '2022年3月3',
+    startPos: 70,
+    endPos: 78,
+    senStartPos: 0,
+    senEndPos: 8,
+    suggestType: 1,
+    suggestions: null,
+    suggestion: null,
+    collateWord: '日期格式错误(成分缺失错误)',
+    reference: null,
+    weight: 1.0,
+    engine: 'date',
+    fileName: null,
+  },
+])
+
+const button6 = () => {
+  const a = {
+    errorWord: '幻境',
+    startPos: 54,
+    endPos: 56,
+    collateWord: '环境1',
+  }
+  const b = {
+    errorWord: '幻境',
+    startPos: 54,
+    endPos: a.startPos + a.collateWord.length,
+    collateWord: '环境1',
+  }
+  console.log(data)
+  const offset = b.endPos - a.endPos
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].startPos > b.startPos) {
+      data[i].startPos += offset
+      data[i].endPos += offset
+    }
+  }
+  console.log(data)
+}
 </script>
 
 <style>
