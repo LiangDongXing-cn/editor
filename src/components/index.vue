@@ -649,12 +649,16 @@ const insertContent = (
   content: string,
   options = {
     updateSelection: true,
-    focusPosition: 'start',
+    focusPosition: null,
     focusOptions: { scrollIntoView: true },
   },
 ) => {
   if (!editor.value) {
     throw new Error('editor is not ready!')
+  }
+  if (!options.focusPosition) {
+    const { from, to } = editor.value.state.selection
+    options.focusPosition = from
   }
   editor.value
     .chain()
@@ -910,6 +914,68 @@ const getContentExcerpt = (charLimit = 100, more = ' ...') => {
   return text?.substring(0, charLimit) + more
 }
 
+const setHighlight = (position = { from: 0, to: 0 }, color: string) => {
+  if (!editor.value) {
+    throw new Error('editor is not ready!')
+  }
+  editor.value
+    ?.chain()
+    .focus()
+    .setTextSelection(position)
+    .setHighlight({ color })
+    .blur()
+    .run()
+}
+
+const unsetHighlight = (position = { from: 0, to: 0 }) => {
+  if (!editor.value) {
+    throw new Error('editor is not ready!')
+  }
+  editor.value
+    ?.chain()
+    .focus()
+    .setTextSelection(position)
+    .unsetHighlight()
+    .run()
+}
+
+const appendContent = (
+  content: string,
+  options = {
+    updateSelection: true,
+    focusPosition: 'end',
+    focusOptions: { scrollIntoView: true },
+  },
+) => {
+  if (!editor.value) {
+    throw new Error('editor is not ready!')
+  }
+  editor.value
+    .chain()
+    .focus(options.focusPosition as FocusPosition, options.focusOptions)
+    .insertContent(content, { updateSelection: options.updateSelection })
+    .run()
+}
+
+const replaceContent = (position = { from: 0, to: 0 }, content: string) => {
+  if (!editor.value) {
+    throw new Error('editor is not ready!')
+  }
+  const unsetHighlightSelection = {
+    from: position.from,
+    to: position.from + content.length,
+  }
+  console.log(unsetHighlightSelection)
+  editor.value
+    .chain()
+    .insertContentAt(position, content, {
+      updateSelection: options.value.updateSelection,
+    })
+    .setTextSelection(unsetHighlightSelection)
+    .unsetHighlight()
+    .run()
+}
+
 // Hotkeys Setup
 watch(
   () => editor.value,
@@ -961,6 +1027,10 @@ defineExpose({
   setWatermark,
   setDocument,
   setContent,
+  setHighlight,
+  unsetHighlight,
+  appendContent,
+  replaceContent,
   insertContent,
   startTypewriter,
   stopTypewriter,
