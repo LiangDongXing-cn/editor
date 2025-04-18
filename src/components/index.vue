@@ -662,8 +662,8 @@ const insertContent = (
   }
   editor.value
     .chain()
-    .insertContent(content, { updateSelection: options.updateSelection })
     .focus(options.focusPosition as FocusPosition, options.focusOptions)
+    .insertContent(content, { updateSelection: options.updateSelection })
     .run()
 }
 
@@ -920,10 +920,9 @@ const setHighlight = (position = { from: 0, to: 0 }, color: string) => {
   }
   editor.value
     ?.chain()
-    .focus()
     .setTextSelection(position)
     .setHighlight({ color })
-    .blur()
+    .focus(position.to)
     .run()
 }
 
@@ -933,27 +932,9 @@ const unsetHighlight = (position = { from: 0, to: 0 }) => {
   }
   editor.value
     ?.chain()
-    .focus()
     .setTextSelection(position)
     .unsetHighlight()
-    .run()
-}
-
-const appendContent = (
-  content: string,
-  options = {
-    updateSelection: true,
-    focusPosition: 'end',
-    focusOptions: { scrollIntoView: true },
-  },
-) => {
-  if (!editor.value) {
-    throw new Error('editor is not ready!')
-  }
-  editor.value
-    .chain()
-    .focus(options.focusPosition as FocusPosition, options.focusOptions)
-    .insertContent(content, { updateSelection: options.updateSelection })
+    .focus(position.to)
     .run()
 }
 
@@ -968,12 +949,11 @@ const replaceContent = (position = { from: 0, to: 0 }, content: string) => {
   console.log(unsetHighlightSelection)
   editor.value
     .chain()
-    .insertContentAt(position, content, {
-      updateSelection: options.value.updateSelection,
-    })
+    .insertContentAt(position, content, { updateSelection: options.value.updateSelection })
     .setTextSelection(unsetHighlightSelection)
     .unsetHighlight()
-    .run()
+    .focus(unsetHighlightSelection.to)
+    .run();
 }
 
 // Hotkeys Setup
@@ -1029,7 +1009,6 @@ defineExpose({
   setContent,
   setHighlight,
   unsetHighlight,
-  appendContent,
   replaceContent,
   insertContent,
   startTypewriter,
