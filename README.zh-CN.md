@@ -14,7 +14,9 @@
 
 Umo Editor 是一个基于 Vue3 和 Tiptap 的本土化开源文档编辑器，专为国人用户设计。它提供了强大的文档编辑能力和 AI 创作功能，支持分页模式、Markdown 语法、富文本编辑、多种格式的节点插入、页面样式设置、文档导出与打印等功能。此外，Umo Editor 还支持自定义扩展、多语言设置和暗色主题。
 
-<img src="https://unpkg.com/@umoteam/editor-external@latest/static/umo-editor-cn@2x.png" alt="umo editor" />
+Umo Editor 最大的特点是代码完全开源且自主可控，支持私有部署，您可以内网环境中使用，而无需担心数据安全问题。同时 Umo Editor 基于 Vue3 和 Tiptap，两者都有丰富的生态系统和社区支持，在遇到问题时可以迅速得到解决。
+
+![Umo Editor](https://unpkg.com/@umoteam/editor-external@latest/static/umo-editor-cn@2x.png)
 
 作为一个独立的 Vue3 插件，Umo Editor 可以轻松集成到各类 Vue3 项目中。对于非 Vue3 项目，您可以通过 Iframe 将 Umo Editor 嵌入到您的项目中。
 
@@ -72,9 +74,13 @@ Umo Editor 的诞生旨在解决 Web 应用中文档编辑的复杂性，为 Web
 | 各类国产浏览器的极速模式 | 最新版 |  ✅ 支持  |
 | Internet Explorer (IE)   |  所有  | ❌ 不支持 |
 
-## Node.js 版本支持
+## 环境支持
 
-Node.js 18.0.0 及以上版本。
+- **Node.js** (>=v18.0.0)
+- **Vue** (>=v3.x)
+- **Vite** (>=v4.x)
+- **Tiptap** (>=v2.6)
+- **TypeScript** (>=v5.5)
 
 ## 加入社区
 
@@ -124,4 +130,6 @@ Umo Editor 的发展离不开社区的支持，以下是为 Umo Editor 贡献过
 
 ## 开源协议
 
-Umo Editor 采用 [MIT 许可证](./LICENSE)，您可以免费使用、修改和使用本软件。
+Umo Editor 采用 [MIT 许可证](./LICENSE)，您可以免费使用、修改和使用本软件，但这不代表您可以随意删除版权信息，请保留 Umo Editor 的版权信息和界面上的链接地址，否则视为侵权，请支持开源项目。
+
+如果您不想保留版权信息，请联系我们或者购买商业版本 [Umo Editor Next](https://editor.umodoc.com/cn/docs/next)。
